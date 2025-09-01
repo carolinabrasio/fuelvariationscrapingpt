@@ -51,8 +51,8 @@ def extract_variation(html: str, fuel_type: str):
         text = re.sub(r'(?<=[a-záéíóú])(?=[A-ZÁÉÍÓÚ])', ' ', p.get_text(strip=True))
         text = re.sub(r'\s+', ' ', text).strip()
 
-        expected_prefix = f"quanto sobe ou desce o {fuel_type}"
-        if title.startswith(expected_prefix):
+        expected_prefix = f"quanto sobe ou desce"
+        if fuel_type in title and title.startswith(expected_prefix):
             return parse_variation(text)  # usa a função do parse.py
 
     return None

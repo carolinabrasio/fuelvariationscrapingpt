@@ -20,7 +20,9 @@ Follow these steps:
 
 Follow these steps:
 
-1. Run `python3 -m venv pytmp` to create a temporary python environment
-2. Run `source pytmp/bin/activate` to activate the temporary python environment
-3. Run `pip install pytest` to install pytest
-4. Run `pytest -v` to test the parser utility 
+1. Copy the method you want to test to `sensor_test.py`
+2. Create you test method
+3. Run `python3 -m venv pytmp` to create a temporary python environment
+4. Run `source pytmp/bin/activate` to activate the temporary python environment
+5. Run `pip install pytest beautifulsoup4` to install pytest
+6. Run `pytest -v` to test the parser utility 
