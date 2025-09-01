@@ -6,8 +6,6 @@ from bs4 import BeautifulSoup
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .parse import parse_variation  # <-- import do seu parse.py
-
 _LOGGER = logging.getLogger(__name__)
 URL = "https://precocombustiveis.pt/proxima-semana/"
 HEADERS = {"User-Agent": "Mozilla/5.0"}
@@ -22,6 +20,24 @@ async def fetch_page():
         async with session.get(URL, headers=HEADERS) as resp:
             return await resp.text()
 
+def parse_variation(text: str):
+    """Extrai a tendência e a variação em cêntimos/litro do texto."""
+    tendencia = "sobe" if "subir" in text.lower() else "desce" if "descer" in text.lower() else "neutro"
+    variacao = None
+
+    match = re.search(r"\(([-+]?\d+,\d+)\s*euros?/litro\)", text)
+    if match:
+        variacao = match.group(1).replace(",", ".")
+        try:
+            variacao = float(variacao) * 100  # converte para cêntimos
+        except ValueError:
+            variacao = None
+
+    return {
+        "texto": text,
+        "tendencia": tendencia,
+        "variacao": variacao
+    }
 
 def extract_variation(html: str, fuel_type: str):
     """Extract fuel variation info from the HTML."""
