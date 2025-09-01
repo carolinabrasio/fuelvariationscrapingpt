@@ -5,7 +5,7 @@ import pytest
 # garante que a raiz do projeto está no path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from custom_components.fuel_variation_scraping import parser
+from custom_components.fuelvariationscraping import parser
 
 
 def test_parse_variation_subida():
