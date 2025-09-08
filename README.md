@@ -31,6 +31,14 @@ Visita o site para mais detalhes!
 
 ## Instalar no HA
 
+### HACS
+
+Segue estes passos:
+
+1. No Home Assistant, vai a HACS > Integrações.
+2. Clica nos três pontos no canto superior direito e seleciona "Custom repositories".
+3. Adiciona o URL do repositório GitHub e escolhe a categoria "Integration".
+
 ### Instalação manual
 
 Segue estes passos:
