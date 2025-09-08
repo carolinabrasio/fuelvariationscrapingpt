@@ -1,5 +1,7 @@
 # FuelVariationScraping-PT 🇵🇹
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I2I41KY28L)
+
 ## Variação de Combustíveis em Portugal para Home Assistant
 
 Uma integração simples para o Home Assistant que te dá a informação mais recente sobre a variação de preços dos combustíveis em **Portugal**.
