@@ -1,3 +1,6 @@
+![GitHub](https://img.shields.io/github/license/carolinabrasio/fuelvariationscrapingpt?style=for-the-badge)
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
+
 # FuelVariationScraping-PT 🇵🇹
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I2I41KY28L)
@@ -86,3 +89,6 @@ views:
           {% endif %}
         entity: sensor.variacao_do_preco_gasoleo
 ```
+
+# Aviso legal
+Este é um projeto pessoal e não é de forma alguma afiliado, patrocinado ou endossado por [precocombustiveis.pt](https://precocombustiveis.pt/).
