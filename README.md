@@ -50,12 +50,16 @@ Segue estes passos:
 2.  Navega até à pasta `custom_components/` (geralmente localizada na pasta de configuração do Home Assistant).
 3.  Cria uma nova pasta com o nome `fuelvariationscrapingpt`.
 4.  Copia todos os ficheiros desta integração para a pasta `custom_components/fuelvariationscrapingpt/` que acabaste de criar.
-5.  Adiciona o seguinte bloco ao ficheiro de configurações - `homeassistant/configuration.yaml`:
-    ```yaml
-    sensor:
-      - platform: fuelvariationscrapingpt
-    ```
-6.  Reinicia o Home Assistant.
+
+## Configuração 
+
+Adiciona o seguinte bloco ao ficheiro de configurações - `homeassistant/configuration.yaml`:
+```yaml
+sensor:
+  - platform: fuelvariationscrapingpt
+```
+
+Reinicia o Home Assistant.
 
 ## Utilização
 
