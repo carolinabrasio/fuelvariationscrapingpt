@@ -1,4 +1,4 @@
-# custom_components/fuel_variation_scraping/sensor.py
+# custom_components/fuelvariationscrapingpt/sensor.py
 import logging
 import aiohttp
 import re

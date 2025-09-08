@@ -1,3 +1,3 @@
-"""Custom component Fuel Variation Scraping."""
-DOMAIN = "fuelvariationscraping"
+"""Custom component FuelVariationScraping-PT."""
+DOMAIN = "fuelvariationscrapingpt"
 
