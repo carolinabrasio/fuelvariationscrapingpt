@@ -60,19 +60,19 @@ views:
     badges:
       - type: custom:mushroom-template-badge
         content: >-
-          Gasóleo ({{ state_attr('sensor.fuel_variation_gasoleo', 'variacao_cent_litro')
+          Gasóleo ({{ state_attr('sensor.variacao_do_preco_gasoleo', 'variacao_cent_litro')
           }} cents/L)
         icon: |-
-          {% if state_attr('sensor.fuel_variation_gasoleo', 'tendencia') =='sobe' %}
+          {% if state_attr('sensor.variacao_do_preco_gasoleo', 'tendencia') =='sobe' %}
             mdi:arrow-up
           {% else %}
             mdi:arrow-down
           {% endif %}
         color: |-
-          {% if state_attr('sensor.fuel_variation_gasoleo', 'tendencia') =='sobe' %}
+          {% if state_attr('sensor.variacao_do_preco_gasoleo', 'tendencia') =='sobe' %}
             red
           {% else %}
             green
           {% endif %}
-        entity: sensor.fuel_variation_gasoleo
+        entity: sensor.variacao_do_preco_gasoleo
 ```
