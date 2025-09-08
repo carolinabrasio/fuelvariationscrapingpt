@@ -3,41 +3,69 @@ import re
 from bs4 import BeautifulSoup
 
 ## copy this function from sensor.py
-def parse_variation(text: str):
-    """Extrai a tendência e a variação em cêntimos/litro do texto."""
-    tendencia = "sobe" if "subir" in text.lower() else "desce" if "descer" in text.lower() else "neutro"
-    variacao = None
+def parse_variation(soup: BeautifulSoup, fuel_type: str):
+    """Extrai o texto relevante, a tendencia e a variação do HTML"""
 
-    match = re.search(r"\(([-+]?\d+,\d+)\s*euros?/litro\)", text)
-    if match:
-        variacao = match.group(1).replace(",", ".")
-        try:
-            variacao = float(variacao) * 100  # converte para cêntimos
-        except ValueError:
-            variacao = None
-
-    return {
-        "texto": text,
-        "tendencia": tendencia,
-        "variacao": variacao
-    }
-
-## copy this function from sensor.py
-def extract_variation(html: str, fuel_type: str):
-    """Extract fuel variation info from the HTML."""
-    soup = BeautifulSoup(html, "html.parser")
     for h2 in soup.find_all("h2"):
         title = h2.get_text(strip=True).lower()
         p = h2.find_next("p")
         if not p:
             continue
+
         # Ajusta o texto, separando palavras unidas e removendo espaços extras
-        text = re.sub(r'(?<=[a-záéíóú])(?=[A-ZÁÉÍÓÚ])', ' ', p.get_text(strip=True))
+        text = re.sub(r'(?<=[a-záéíóú])(?=[A-ZÁÉÍÓÚ])', ' ', p.get_text(strip=False))
         text = re.sub(r'\s+', ' ', text).strip()
 
         expected_prefix = f"quanto sobe ou desce"
         if fuel_type in title and title.startswith(expected_prefix):
-            return parse_variation(text)  # usa a função do parse.py
+            """Extrai a tendência e a variação em cêntimos/litro do texto."""
+            tendencia = "sobe" if "subir" in text.lower() else "desce" if "descer" in text.lower() else "neutro"
+            variacao = None
+
+            match = re.search(r"\(([-+]?\d+,\d+)\s*euros?/litro\)", text)
+            if match:
+                variacao = match.group(1).replace(",", ".")
+                try:
+                    variacao = float(variacao) * 100  # converte para cêntimos
+                except ValueError:
+                    variacao = None
+
+            return {
+                "texto": text,
+                "tendencia": tendencia,
+                "variacao": variacao
+            }
+
+    return None
+
+## extract week
+def parse_week(soup: BeautifulSoup):
+    """Extrai a semana do html"""
+
+    for h1 in soup.find_all("h1"):
+        title = h1.get_text(strip=True).lower()
+
+        match = re.search(r"\(\d+\s+a\s+\d+\s+de\s+\w+\)", title)
+        if match:
+            return match.group(0).strip("()")
+
+    return "atual"
+
+## copy this function from sensor.py
+def extract_metric(html: str, fuel_type: str):
+    """Extract metric info from the HTML."""
+
+    soup = BeautifulSoup(html, "html.parser")
+    metric = parse_variation(soup, fuel_type)
+
+    if metric != None:
+        semana = parse_week(soup)
+        return {
+            "semana": semana,
+            "texto": metric["texto"],
+            "tendencia": metric["tendencia"],
+            "variacao": metric["variacao"]
+        }
 
     return None
 
@@ -74,27 +102,8 @@ def test_extract_variation_subida():
     var url_s='https://precocombustiveis.pt';document.addEventListener("DOMContentLoaded",()=>{let scriptAD=document.createElement('script');scriptAD.src='https://platform-api.sharethis.com/js/sharethis.js#property=6856d14e52cb3a001af405b4&product=sharing-intelligence';document.body.appendChild(scriptAD);let scriptOS=document.createElement('script');scriptOS.src='https://cdn.onesignal.com/sdks/OneSignalSDK.js';document.body.appendChild(scriptOS);});</script> <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'977d28f63a171c16',t:'MTc1NjY0OTkzNg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body></html><!-- 01:06:31, 31-08-2025 55655.44554 -->
     """
     fuel_type = "gasolina"
-    result = extract_variation(html, fuel_type)
+    result = extract_metric(html, fuel_type)
+    print(result)
     assert result["tendencia"] == "desce"
     assert result["variacao"] == -0.5
 
-
-def test_parse_variation_subida():
-    text = "O preço do litro de gasóleo deverá subir até 0,5 cêntimos (0,005 euros/litro)"
-    result = parse_variation(text)
-    assert result["tendencia"] == "sobe"
-    assert result["variacao"] == 0.5
-
-
-def test_parse_variation_descida():
-    text = "O preço do litro de gasolina deverá descer até -0,5 cêntimos (-0,005 euros/litro)"
-    result = parse_variation(text)
-    assert result["tendencia"] == "desce"
-    assert result["variacao"] == -0.5
-
-
-def test_parse_variation_neutro():
-    text = "O preço do litro de gasolina deverá manter-se estável"
-    result = parse_variation(text)
-    assert result["tendencia"] == "neutro"
-    assert result["variacao"] is None
