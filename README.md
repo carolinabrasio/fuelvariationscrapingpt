@@ -1,7 +1,8 @@
-![GitHub](https://img.shields.io/github/license/carolinabrasio/fuelvariationscrapingpt?style=for-the-badge)
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg?style=for-the-badge)](https://github.com/hacs/integration)
-
 # FuelVariationScraping-PT 🇵🇹
+
+![GitHub](https://img.shields.io/github/license/carolinabrasio/fuelvariationscrapingpt?style=for-the-badge)
+[![hacs][hacs-badge]][hacs-url]
+[![release][release-badge]][release-url]
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/I2I41KY28L)
 
@@ -35,6 +36,10 @@ Visita o site para mais detalhes!
 ## Instalar no HA
 
 ### HACS
+
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=carolinabrasio&repository=fuelvariationscrapingpt&category=integration)
+
+_ou_
 
 Segue estes passos:
 
@@ -96,3 +101,14 @@ views:
 
 # Aviso legal
 Este é um projeto pessoal e não é de forma alguma afiliado, patrocinado ou endossado por [precocombustiveis.pt](https://precocombustiveis.pt/).
+
+<!-- Badges -->
+
+[hacs-url]: https://github.com/hacs/integration
+[hacs-badge]: https://img.shields.io/badge/hacs-custom-orange.svg?style=flat-square
+[release-badge]: https://img.shields.io/github/v/release/carolinabrasio/fuelvariationscrapingpt?style=flat-square
+
+
+<!-- References -->
+
+[release-url]: https://github.com/piitaya/lovelace-mushroom/releases
