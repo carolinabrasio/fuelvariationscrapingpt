@@ -1,10 +1,11 @@
 {
   "domain": "fuelvariationscrapingpt",
   "name": "Fuel Variation Scraping - Portugal",
-  "documentation": "https://precocombustiveis.pt/proxima-semana/",
+  "documentation": "https://github.com/carolinabrasio/fuelvariationscrapingpt/blob/main/README.md",
+  "issue_tracker": "https://github.com/carolinabrasio/fuelvariationscrapingpt/issues",
   "dependencies": [],
   "codeowners": ["@carolinabrasio"],
   "requirements": ["beautifulsoup4==4.12.3"],
-  "version": "2.0.0"
+  "version": "2.1.0"
 }
 
