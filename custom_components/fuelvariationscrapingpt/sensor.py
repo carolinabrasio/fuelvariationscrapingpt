@@ -5,11 +5,14 @@ import re
 from bs4 import BeautifulSoup
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from datetime import timedelta
 
 _LOGGER = logging.getLogger(__name__)
 URL = "https://precocombustiveis.pt/proxima-semana/"
 HEADERS = {"User-Agent": "Mozilla/5.0"}
 
+# Adiciona um intervalo de 6 horas entre atualizações
+SCAN_INTERVAL = timedelta(hours=6)
 SENSORS = ["gasoleo", "gasolina"]
 
 
