@@ -26,9 +26,9 @@ async def fetch_page():
 def parse_variation(soup: BeautifulSoup, fuel_type: str):
     """Extrai o texto relevante, a tendencia e a variação do HTML"""
 
-    for h2 in soup.find_all("h2"):
-        title = h2.get_text(strip=True).lower()
-        p = h2.find_next("p")
+    for h3 in soup.find_all("h3"):
+        title = h3.get_text(strip=True).lower()
+        p = h3.find_next("p")
         if not p:
             continue
 
@@ -36,24 +36,25 @@ def parse_variation(soup: BeautifulSoup, fuel_type: str):
         text = re.sub(r'(?<=[a-záéíóú])(?=[A-ZÁÉÍÓÚ])', ' ', p.get_text(strip=False))
         text = re.sub(r'\s+', ' ', text).strip()
 
-        expected_prefix = f"quanto sobe ou desce"
-        if fuel_type in title and title.startswith(expected_prefix):
+        expected_prefix = f"sobe ou desce na próxima semana"
+        if fuel_type in title and title.endswith(expected_prefix):
             """Extrai a tendência e a variação em cêntimos/litro do texto."""
-            tendencia = "sobe" if "subir" in text.lower() else "desce" if "descer" in text.lower() else "neutro"
             variacao = None
 
-            match = re.search(r"\(([-+]?\d+,\d+)\s*euros?/litro\)", text)
+            match = re.search(r"(.?\d+,\d+)\s?€/l", text)
             if match:
-                variacao = match.group(1).replace(",", ".")
+                variacao = match.group(1).replace(",", ".").replace('−', '-')
                 try:
                     variacao = float(variacao) * 100  # converte para cêntimos
                 except ValueError:
                     variacao = None
 
+            tendencia = "sobe" if variacao > 0 else "desce" if variacao < 0 else "neutro"
+
             return {
                 "texto": text,
                 "tendencia": tendencia,
-                "variacao": variacao
+                "variacao": variacao,
             }
 
     return None
@@ -64,9 +65,9 @@ def parse_week(soup: BeautifulSoup):
     for h1 in soup.find_all("h1"):
         title = h1.get_text(strip=True).lower()
 
-        match = re.search(r"\(\d+\s+a\s+\d+\s+de\s+\w+\)", title)
+        match = re.search(r"\d+\s+a\s+\d+\s+de\s+\w+", title)
         if match:
-            return match.group(0).strip("()")
+            return match.group(0)
 
     return "atual"
 

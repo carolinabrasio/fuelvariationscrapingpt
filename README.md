@@ -68,6 +68,19 @@ Reinicia o Home Assistant.
 
 ## Utilização
 
+### Variaveís
+
+```
+  {
+    'semana': '10 a 16 de novembro',
+    'texto': 'Para a semana de 10 a 16 de novembro, a previsão aponta para subida no gasóleo simples de +0,015 €/l, confirmação habitual à segunda-feira.',
+    'tendencia': 'sobe',
+    'variacao': 1.5
+  }
+```
+
+### Exemplo
+
 ![Home Assistant Dashboard Example](./assets/fuelvariationscraping-pt-dashboard-example.png)
 
 Aqui está um exemplo de como podes exibir a informação da variação dos combustíveis no teu dashboard do Home Assistant:
