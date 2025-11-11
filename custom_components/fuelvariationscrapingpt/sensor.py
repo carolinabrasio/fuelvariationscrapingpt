@@ -14,7 +14,7 @@ HEADERS = {"User-Agent": "Mozilla/5.0"}
 # Adiciona um intervalo de 6 horas entre atualizações
 SCAN_INTERVAL = timedelta(hours=6)
 SENSORS = ["gasoleo", "gasolina"]
-
+MAP = {"gasoleo": "gasóleo", "gasolina": "gasolina"}
 
 async def fetch_page():
     """Fetch raw HTML from the website."""
@@ -37,7 +37,8 @@ def parse_variation(soup: BeautifulSoup, fuel_type: str):
         text = re.sub(r'\s+', ' ', text).strip()
 
         expected_prefix = f"sobe ou desce na próxima semana"
-        if fuel_type in title and title.endswith(expected_prefix):
+        fuel_name = MAP[fuel_type]
+        if fuel_name in title and title.endswith(expected_prefix):
             """Extrai a tendência e a variação em cêntimos/litro do texto."""
             variacao = None
 
