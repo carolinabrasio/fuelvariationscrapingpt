@@ -42,7 +42,7 @@ def parse_variation(soup: BeautifulSoup, fuel_type: str):
             """Extrai a tendência e a variação em cêntimos/litro do texto."""
             variacao = None
 
-            match = re.search(r"(.?\d+,\d+)\s?€/l", text)
+            match = re.search(r"(.?\d+,\d+)\s?€/l", text, re.IGNORECASE)
             if match:
                 variacao = match.group(1).replace(",", ".").replace('−', '-')
                 try:
