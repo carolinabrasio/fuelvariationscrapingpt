@@ -41,6 +41,7 @@ def parse_variation(soup: BeautifulSoup, fuel_type: str):
         if fuel_name in title and title.endswith(expected_prefix):
             """Extrai a tendência e a variação em cêntimos/litro do texto."""
             variacao = None
+            variacao_em_cent = None
 
             match = re.search(r"(.?\d+,\d+)\s?€/l", text, re.IGNORECASE)
             if match:
@@ -52,10 +53,15 @@ def parse_variation(soup: BeautifulSoup, fuel_type: str):
                     variacao = None
                     variacao_em_cent = None
 
-            tendencia = "sobe" if variacao_em_cent > 0 else "desce" if variacao_em_cent < 0 else "neutro"
-            variation_level = "forte" if abs(variacao_em_cent) >= 6 else "moderada" if abs(variacao_em_cent) >= 2 else "ligeira"
+            if variacao_em_cent is None:
+                tendencia = "neutro"
+                variation_level = "ligeira"
+            else:
+                tendencia = "sobe" if variacao_em_cent > 0 else "desce" if variacao_em_cent < 0 else "neutro"
+                variation_level = "forte" if abs(variacao_em_cent) >= 6 else "moderada" if abs(variacao_em_cent) >= 2 else "ligeira"
+
             preco_referencia = get_avg_price(soup, fuel_type)
-            final_price = preco_referencia + variacao
+            final_price = preco_referencia + variacao if (preco_referencia is not None and variacao is not None) else None
 
             return {
                 "texto": text,
@@ -63,7 +69,7 @@ def parse_variation(soup: BeautifulSoup, fuel_type: str):
                 "variacao": variacao_em_cent,
                 "nivel_de_variacao": variation_level,
                 "preco_referencia": preco_referencia,
-                "preco_final": preco_referencia + variacao,
+                "preco_final": final_price,
             }
 
     return None
