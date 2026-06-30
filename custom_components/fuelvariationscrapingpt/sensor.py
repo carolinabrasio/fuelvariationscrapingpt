@@ -55,7 +55,9 @@ def parse_variation(soup: BeautifulSoup, fuel_type: str):
 
             if variacao_em_cent is None:
                 tendencia = "neutro"
-                variation_level = "ligeira"
+                variation_level = "nula"
+                variacao = 0
+                variacao_em_cent = 0
             else:
                 tendencia = "sobe" if variacao_em_cent > 0 else "desce" if variacao_em_cent < 0 else "neutro"
                 variation_level = "forte" if abs(variacao_em_cent) >= 6 else "moderada" if abs(variacao_em_cent) >= 2 else "ligeira"
