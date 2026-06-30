@@ -20,7 +20,7 @@ Com ela, podes saber se o preço da gasolina e do gasóleo vai subir, descer ou 
 
 - **Extrai o valor da variação prevista** (em cêntimos por litro).
 - **Identifica a tendência** (`sobe`, `desce` ou `neutro`).
-- **Classifica a intensidade da variação** (`ligeira`, `moderada` ou `forte`).
+- **Classifica a intensidade da variação** (`nula`, `ligeira`, `moderada` ou `forte`).
 - **Calcula preço de referência e preço final estimado** por litro.
 - **Calcula impacto no abastecimento** para depósitos de 40L, 50L e 60L.
 - **Expõe janela da previsão e data de atualização** para automações no HA.
@@ -115,16 +115,16 @@ attributes:
 
 #### Dados de previsão
 
-| Atributo | O que representa | Unidade / Formato                                                                              |
-|---|---|------------------------------------------------------------------------------------------------|
-| `inicio_previsao` | Início da semana prevista | data `YYYY-MM-DD`                                                                              |
-| `fim_previsao` | Fim da semana prevista | data `YYYY-MM-DD`                                                                              |
-| `ultima_atualizacao` | Data da última atualização da página de origem | data `YYYY-MM-DD`                                                                              |
-| `tendencia` | Direção da variação prevista | `sobe` / `desce` / `neutro`                                                                    |
-| `variacao_cent_litro` | Variação por litro | cêntimos por litro                                                                             |
-| `nivel_de_variacao` | Intensidade da variação | `ligeira` (até dois cêntimos) / `moderada` (mais de 2 cêntimos) / `forte` (mais de 6 cêntimos) |
-| `preco_referencia` | Preço médio de referência atual | euros por litro                                                                                |
-| `preco_final` | Preço estimado após variação | euros por litro                                                                                |
+| Atributo | O que representa | Unidade / Formato                                                                                                       |
+|---|---|-------------------------------------------------------------------------------------------------------------------------|
+| `inicio_previsao` | Início da semana prevista | data `YYYY-MM-DD`                                                                                                       |
+| `fim_previsao` | Fim da semana prevista | data `YYYY-MM-DD`                                                                                                       |
+| `ultima_atualizacao` | Data da última atualização da página de origem | data `YYYY-MM-DD`                                                                                                       |
+| `tendencia` | Direção da variação prevista | `sobe` / `desce` / `neutro`                                                                                             |
+| `variacao_cent_litro` | Variação por litro | cêntimos por litro                                                                                                      |
+| `nivel_de_variacao` | Intensidade da variação | `nula`(preço não muda) / `ligeira` (até dois cêntimos) / `moderada` (mais de 2 cêntimos) / `forte` (mais de 6 cêntimos) |
+| `preco_referencia` | Preço médio de referência atual | euros por litro                                                                                                         |
+| `preco_final` | Preço estimado após variação | euros por litro                                                                                                         |
 
 #### Impacto financeiro
 
