@@ -107,10 +107,11 @@ def get_avg_price(soup: BeautifulSoup, fuel_type: str):
         p = section.find("p")
         normalized_p = p.get_text(strip=True).lower()
         fuel_name = MAP[fuel_type]
-        match = re.search(r"preço de referência.*(\d+,\d+).*" + re.escape(fuel_name) + r" simples", normalized_p, re.IGNORECASE)
+        match = re.search(r"preço de referência.*?([−-]?\d+,\d+).*?" + re.escape(fuel_name) + r" simples", normalized_p, re.IGNORECASE)
         if match:
             preco_referencia = match.group(1).replace(",", ".").replace('−', '-')
-            return float(preco_referencia)
+            preco_referencia_float = float(preco_referencia)
+            return preco_referencia_float if preco_referencia_float > 0 else None
 
     return None
 
@@ -144,18 +145,22 @@ def calc_impact(metric: dict):
 
     final_price = metric["preco_final"]
     ref_price = metric["preco_referencia"]
-    varicao = metric["variacao"]
+    variacao = metric["variacao"]
 
-    if final_price != None and ref_price != None:
-        metric["impacto_40l"] = round((final_price - ref_price) * 40, 3)
-        metric["impacto_50l"] = round((final_price - ref_price) * 50, 3)
-        metric["impacto_60l"] = round((final_price - ref_price) * 60, 3)
+    if final_price != None:
         metric["preco_final_40l"] = round(final_price * 40, 3)
         metric["preco_final_50l"] = round(final_price * 50, 3)
         metric["preco_final_60l"] = round(final_price * 60, 3)
+
+    if ref_price != None:
         metric["preco_atual_40l"] = round(ref_price * 40, 3)
         metric["preco_atual_50l"] = round(ref_price * 50, 3)
         metric["preco_atual_60l"] = round(ref_price * 60, 3)
+
+    if variacao != None:
+        metric["impacto_40l"] = round(variacao * 0.4, 3)
+        metric["impacto_50l"] = round(variacao * 0.5, 3)
+        metric["impacto_60l"] = round(variacao * 0.6, 3)
 
 async def async_setup_platform(hass, config, async_add_entities: AddEntitiesCallback, discovery_info=None):
     sensors = [FuelVariationSensor(fuel_type) for fuel_type in SENSORS]
